@@ -3,6 +3,7 @@ let msg = document.querySelector("#msg");
 let msg_cont = document.querySelector(".message");
 let msg_cons = document.querySelector(".new_game");
 let turn = true;
+let count = 0;
 
 const winpatterns = [
     [0, 1, 2],
@@ -26,12 +27,23 @@ boxes.forEach((box) => {
             turn = true;
         }
         box.disabled = true;
-        checkwinner();
-    })
+        count++;
+        let iswin = checkwinner();
+        if (count === 9 && !iswin) {
+            gameDraw();
+        }
+    });
 });
+
+const gameDraw = () => {
+    msg.innerText = `Game was a Draw.`;
+    msg_cont.classList.remove("hide");
+    disablebox();
+};
 
 const resetgame = () => {
     turn = true;
+    count = 0;
     enablebox();
     msg_cont.classList.add("hide");
 };
@@ -39,7 +51,7 @@ const resetgame = () => {
 const disablebox = () => {
     for (let box of boxes) {
         box.disabled = true;
-        box.innerText="";
+        box.innerText = "";
     }
 };
 
